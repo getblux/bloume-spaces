@@ -121,6 +121,41 @@ app.get('/check-store/:storeName', async (req, res) => {
     }
   });
 
+  // Fincra webhook endpoint
+app.post('/webhook/fincra', async (req, res) => {
+    try {
+      console.log('📩 Fincra webhook received:', req.body);
+      
+      // Verify webhook signature (important for security)
+      const signature = req.headers['x-fincra-signature'];
+      // Add signature verification logic here
+      
+      const event = req.body;
+      
+      // Handle different webhook events
+      switch (event.event) {
+        case 'virtualaccount.credit':
+          console.log('💳 Virtual account credited:', event);
+          // Update user balance in your database
+          break;
+          
+        case 'payout.success':
+          console.log('💰 Payout successful:', event);
+          // Update payout status in your database
+          break;
+          
+        default:
+          console.log('🔔 Unknown event:', event.event);
+      }
+      
+      res.status(200).json({ received: true });
+      
+    } catch (error) {
+      console.error('Webhook error:', error);
+      res.status(400).json({ error: 'Webhook processing failed' });
+    }
+  });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

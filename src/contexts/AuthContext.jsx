@@ -13,19 +13,12 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (email, password, name, spaceName) => {
     try {
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch(`${API_BASE}/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email, 
-          password,
-          spaceName: spaceName
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, spaceName })
       });
-
+      
       const data = await response.json();
 
       if (!data.success) {

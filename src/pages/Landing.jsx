@@ -2,6 +2,7 @@ import { Box, Container, Typography, Button, TextField, Alert } from '@mui/mater
 import { WhatsApp } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { API_BASE } from '../config/api';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Landing = () => {
   
       try {
         // Call your Node.js backend instead of Firestore
-        const response = await fetch(`http://localhost:3000/check-store/${spaceName.toLowerCase()}`);
+        const response = await fetch(`${API_BASE}/check-store/${spaceName.toLowerCase()}`);
         const data = await response.json();
         
         if (data.success) {
